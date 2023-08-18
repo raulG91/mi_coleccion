@@ -1,0 +1,15 @@
+{% extends "base_template.html"%}
+
+{%block title%}Mi colecion {% endblock%}
+
+{%block content%}
+
+
+<div class="logo_container">
+    <a href="{{ url_for("public.index") }}">
+        <img src="{{ url_for('public.static', filename = 'images/Logo.png')}}" width="200" height="200">
+    </a>
+</div>
+
+
+{%endblock%}

@@ -1,0 +1,110 @@
+{% extends "base_template.html"%}
+
+{%block title%}Mi colecion {% endblock%}
+
+{%block content%}
+<div class="back_container">
+
+    <a href="{{url_for('public.landpage')  }}"> 
+        <i class="fa-solid fa-arrow-left"></i>
+        Volver 
+    </a>
+</div>
+
+<div>
+    {% for message in messages %}
+    <span style="color:red">{{message}}</span>
+    {% endfor %}
+
+</div>
+
+<div class="product_container">
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        {% for error in form.form_errors %}
+        <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+        <div>
+          {% if images  %}
+            <img src="{{ url_for('private.static', filename = 'images/' + images) }}" width="500" height="400">
+          {% else %}  
+          <img src="{{ url_for('private.static', filename = 'images/empty.jpg') }}" width="500" height="400">
+          {%endif %}
+        </div>
+        <div>
+            {{ form.name.label }}
+            {{ form.name(size=100) }}<br>
+            {% for error in form.name.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.description.label }}<br>
+            {{ form.description(size=255) }}<br>
+            {% for error in form.description.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.buy_date.label }}
+            {{ form.buy_date }}<br>
+            {% for error in form.buy_date.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.price.label }}
+            {{ form.price }}<br>
+            {% for error in form.price.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.platform.label }}
+            {{ form.platform }}<br>
+            {% for error in form.platform.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.genre.label }}
+            {{ form.genre }}<br>
+            {% for error in form.genre.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.region.label }}
+            {{ form.region }}<br>
+            {% for error in form.region.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.publisher.label }}
+            {{ form.publisher }}<br>
+            {% for error in form.publisher.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.status.label }}
+            {{ form.status }}<br>
+            {% for error in form.status.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.buyer_platform.label }}
+            {{ form.buyer_platform }}<br>
+            {% for error in form.buyer_platform.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{form.modify()}} {{form.delete()}}
+        </div>
+    </form>
+</div>
+{%endblock%}

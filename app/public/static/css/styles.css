@@ -1,0 +1,160 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    line-height: 1.5;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+/* Style for Logo on Login and register */
+
+.logo_container{
+
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    margin-top: 2%;
+
+}
+
+/* Styles for login form  */
+.container_login_form{
+ 
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+
+}
+.login_form{
+    
+    border-style: solid;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 3% ;
+
+}
+.register_form{
+    
+    border-style: solid;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 3% ;
+
+}
+/* Styles for forms used to add/view and modify product*/
+
+.product_container{
+
+    display: flex;
+    margin-top: 15px;
+    margin-left: 10px;
+
+}
+
+
+
+/* General Sytles */
+label{
+    font-weight: bold;
+}
+
+
+#submit,#delete,#modify{
+
+    background-color: #04AA6D;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: medium;
+    color: white;
+    margin-top: 10px
+   
+
+}
+
+#submit:hover,#delete:hover,#modify:hover{
+   
+     opacity: 0.8;
+
+}
+.add_button{
+    background-color: #04AA6D;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: medium;
+    color: white;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.back_container{
+
+    display: flex;
+    margin-top: 5px;
+    margin-left: 2px;
+
+
+}
+
+.back_container > a{
+    text-decoration: none;
+    background:  #04AA6D ;
+    color: white;
+    font-weight: bold;
+    border: 1px solid black
+
+}
+
+/* Styles for Grid used in landpage */
+
+.grid_container{
+
+    margin-top: 20px;
+    margin-left:10px;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-rows: 1fr;
+    justify-content: center;
+
+
+}
+.item{
+
+    border-style: solid;
+    border-radius: 4px;
+
+}
+.item > a{
+
+    background-color: #04AA6D ;
+    width: 100%;
+    color: white;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* Styles for user bar */
+.user-bar {
+   background: black;
+   position: relative;
+   overflow: hidden;
+}
+.user-bar a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+.user-bar a:hover{
+    background-color: #04AA6D;
+  }
+
+.topnav-right {
+    float: right;
+  }
+  

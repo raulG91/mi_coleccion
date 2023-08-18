@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="Retro, Games, Juegos, Collection, Collecion">
+    <meta name="description" content="Retro games colection">
+    <meta name="author" content="Raul Garcia">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for("public.static", filename="/css/styles.css" ) }}">
+    <link rel="shortcut icon" href="{{ url_for('public.static', filename = 'images/Logo.png')}}"  />
+    <script src="https://kit.fontawesome.com/55cc5c8e5d.js" crossorigin="anonymous"></script>
+    
+ 
+
+
+</head>
+
+<body>
+    <div class="user-bar">
+        <div class="topnav-right">
+            {% if current_user.is_anonymous  %}
+            <a href="{{ url_for("user.do_login") }}">Login</a>
+            <a href="{{ url_for("user.register_user") }}">Registro</a>
+            {% else %}
+              <a href="">{{ current_user.name }}</a> 
+              <a href="{{url_for("user.logout") }}">Logout</a>
+               
+            {% endif %}
+        </div>
+
+
+    </div>
+    {% block content %}{% endblock %}
+</body>
+
+</html>
