@@ -1,4 +1,6 @@
 from app.private.db import db_connection
+import os
+from flask import current_app
 
 class Product:
     def __init__(self,name,description,buy_date,price):
@@ -153,13 +155,18 @@ class Game(Product):
         database = db_connection()
         delete_string = f'delete from product where id_product = {self._id_product}'
         result_deletion  =  database.execute_delete(delete_string)
+        if result_deletion and self.image:
+            #if information has been deleted from database, delete image store
+            app_folder = current_app.config['UPLOAD_FOLDER']
+            os.remove(f'{app_folder}/{self.image}')
+
         return result_deletion
     def modify_game(self,name_new,description_new,buy_date_new,price_new,platform_new,genre_new,region_new,publisher_new,status_new,buyer_platform_new):
         '''
         Modify a game
         :param name_new: New name for the product
         :param description_new: New Description for the product
-        :param buy_date_new : New Date in format YYYY-MM-DD when product was bought
+        :param buy_date_new : New Date in format YYYY-MM-DD when product was boughtz
         :param price_new: New Price in format NN.NN 
         :param platform_new : String that contains platform for the game
         :param genre_new : String with the genre for game

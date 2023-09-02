@@ -4,8 +4,7 @@ from .users import user
 from .private import db
 def create_app():
      app = Flask(__name__)
-     app.config.from_object("config.ProdConfig")
-     print(app.config['HOST'])
+     app.config.from_object("config.DevConfig")
      #Import BluePrint for public part
      from .public import public_bp
      #Register BluePrint

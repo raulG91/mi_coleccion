@@ -101,7 +101,8 @@ label{
     background:  #04AA6D ;
     color: white;
     font-weight: bold;
-    border: 1px solid black
+    border: 1px solid black;
+    padding: 2px
 
 }
 

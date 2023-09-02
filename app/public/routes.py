@@ -155,8 +155,12 @@ def product_details(product_id:int):
                 images = game.get_image()
                 return render_template("game_details.html",form = form, messages = messages, images = images )  
         else:
-            #User has pressed buttin delete
+            #User has pressed button delete
+            #Get details for the game
+            game.get_game_id(product_id,current_user.get_id())
+
             if game.delete_game():
+        
                 #if the information has be deleted succesfully retrun to landpage
                 return redirect(url_for('public.landpage'))
             else:
