@@ -27,6 +27,23 @@ footer > div > a, span {
 
 }
 
+/*Styles for main page */
+
+.font_page{
+
+    display: flex;
+    justify-content:  center;
+    gap: 40px;
+    
+
+
+}
+.font_page_text{
+    
+  width:30%;
+
+}
+
 /* Style for Logo on Login and register */
 
 .logo_container{
@@ -131,7 +148,8 @@ label{
 .grid_container{
 
     margin-top: 20px;
-    margin-left:10px;
+    margin-left:20%;
+    margin-right: 20%;
     display: grid;
     gap: 20px;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
