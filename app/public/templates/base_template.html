@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ url_for("public.static", filename="/css/styles.css" ) }}">
     <link rel="shortcut icon" href="{{ url_for('public.static', filename = 'images/Logo.png')}}"  />
     <script src="https://kit.fontawesome.com/55cc5c8e5d.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     
  
 
@@ -32,7 +33,11 @@
 
 
     </div>
+    <div class="main_content">
+
+    
     {% block content %}{% endblock %}
+    </div>
     <footer>
         <div id="links">
           <span>Creado por Raul Garcia </span>

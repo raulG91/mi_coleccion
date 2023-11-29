@@ -1,26 +1,34 @@
+html {
+  scroll-behavior: smooth;
+}
 body {
     margin: 0;
     padding: 0;
     font-size: 100%;
     line-height: 1.5;
-    font-family: Arial, Helvetica, sans-serif;
-
-
-
+    font-family: "Open Sans", Helvetica, sans-serif;
+    height: 100%;
 }
 
+* {
+  box-sizing: border-box;
+}
+.main_content{
+  min-height: calc(100% - 90px);
+}
 /*Styles for footer */
 footer {
 
     background: black;
+    /*position: fixed;*/
     bottom: 0;
     width: 100%;
-    height: 50px;
+    height: 35px;
     display: flex;
     flex-direction: row;
     column-gap: 5px;
     justify-content: center;
-    margin-top: auto;
+    margin-top: 10px;
   
   }
   
@@ -55,17 +63,28 @@ footer {
 .font_page{
 
     display: flex;
-    justify-content:  center;
+    flex-direction: column;
+    align-items:   center;
     gap: 40px;
+    margin-bottom: 45px;
     
 
 
 }
-.font_page_text{
-    
-  width:30%;
+.font_page_text {
+
+  margin: 5px;
+  text-align: center;
+}
+
+.font_page_text > h1:hover{
+
+  text-decoration: 1px solid underline #333;
+  text-underline-position: under;
+  text-underline-offset: 5px;
 
 }
+
 
 /* Style for Logo on Login and register */
 
