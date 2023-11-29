@@ -9,23 +9,46 @@ body {
 
 }
 
-footer{
+/*Styles for footer */
+footer {
 
     background: black;
-    position:absolute;
-    bottom:0;
+    bottom: 0;
     width: 100%;
     height: 50px;
     display: flex;
-    column-gap: 10px;
+    flex-direction: row;
+    column-gap: 5px;
     justify-content: center;
-
-}
-footer > div > a, span {
+    margin-top: auto;
+  
+  }
+  
+  footer>div>a,
+  span {
     color: white;
-    
-
-}
+  
+  }
+  
+  @media screen and (max-width: 600px) {
+    footer {
+  
+      column-gap: 2px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    footer {
+  
+      column-gap: 1px;
+    }
+  
+    footer>div>a,
+    span {
+      font-size: 4vw;
+  
+    }
+  }
 
 /*Styles for main page */
 
