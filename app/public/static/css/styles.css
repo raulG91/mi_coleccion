@@ -110,8 +110,11 @@ footer {
 .container_login_form{
  
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    width: 100%;
     align-items: center; 
+   
 
 }
 .login_form{
@@ -122,6 +125,10 @@ footer {
     margin-top: 3% ;
 
 }
+
+.grid_form {
+  padding: 3px;
+}
 .register_form{
     
     border-style: solid;
@@ -129,6 +136,18 @@ footer {
     padding: 20px;
     margin-top: 3% ;
 
+}
+@media screen and (max-width:460px){
+
+  .login_form{
+    padding: 0;
+    border-style: none;
+  }
+  .register_form{
+    padding: 0;
+    border-style: none;
+  }
+  
 }
 /* Styles for forms used to add/view and modify product*/
 

@@ -10,44 +10,44 @@
             {% for error in form.form_errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
-            <div>
+            <div class="grid_form">
                 {{ form.name.label }}<br>
-                {{ form.name(size=64) }}<br>
+                {{ form.name(size=40) }}<br>
                 {% for error in form.name.errors %}
                 <span style="color: red;">{{ error }}</span>
                 {% endfor %}
             </div>
-            <div>
+            <div class="grid_form">
                 {{ form.last_name.label }}<br>
-                {{ form.last_name(size=64) }}<br>
+                {{ form.last_name(size=40) }}<br>
                 {% for error in form.last_name.errors %}
                 <span style="color: red;">{{ error }}</span>
                 {% endfor %}
             </div>
-            <div>
+            <div class="grid_form">
                 {{ form.second_last_name.label }}<br>
-                {{ form.second_last_name(size=64) }}<br>
+                {{ form.second_last_name(size=40) }}<br>
                 {% for error in form.second_last_name.errors %}
                 <span style="color: red;">{{ error }}</span>
                 {% endfor %}
             </div>
-            <div>
+            <div class="grid_form">
                 {{ form.email.label }}<br>
-                {{ form.email(size =64) }}<br>
+                {{ form.email(size =40) }}<br>
                 {% for error in form.email.errors %}
                 <span style="color: red;">{{ error }}</span>
                 {% endfor %}
             </div>
-            <div>
+            <div class="grid_form">
                 {{ form.password.label }}<br>
-                {{ form.password(size = 64) }}<br>
+                {{ form.password(size = 40) }}<br>
                 {% for error in form.password.errors %}
                 <span style="color: red;">{{ error }}</span>
                 {% endfor %}
             </div>
-            <div>
+            <div class="grid_form">
                 {{ form.password_repeat.label }}<br>
-                {{ form.password_repeat(size = 64) }}<br>
+                {{ form.password_repeat(size = 40) }}<br>
                 {% for error in form.password_repeat.errors %}
                 <span style="color: red;">{{ error }}</span>
                 {% endfor %}
