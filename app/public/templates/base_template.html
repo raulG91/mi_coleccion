@@ -19,39 +19,42 @@
 </head>
 
 <body>
-    <div class="user-bar">
-        <div class="topnav-right">
-            {% if current_user.is_anonymous  %}
-            <a href="{{ url_for("user.do_login") }}">Login</a>
-            <a href="{{ url_for("user.register_user") }}">Registro</a>
-            {% else %}
-              <a href="">{{ current_user.name }}</a> 
-              <a href="{{url_for("user.logout") }}">Logout</a>
-               
-            {% endif %}
-        </div>
 
+    <div class="page-wrapper">
 
-    </div>
-    <div class="main_content">
-
+      <div class="main_content">
+        <div class="user-bar">
+            <div class="topnav-right">
+                {% if current_user.is_anonymous  %}
+                <a href="{{ url_for("user.do_login") }}">Login</a>
+                <a href="{{ url_for("user.register_user") }}">Registro</a>
+                {% else %}
+                  <a href="">{{ current_user.name }}</a> 
+                  <a href="{{url_for("user.logout") }}">Logout</a>
+                   
+                {% endif %}
+            </div>
     
-    {% block content %}{% endblock %}
+    
+        </div>
+        {% block content %}{% endblock %}
+      </div>  
+        <footer>
+            <div id="links">
+                <span>Creado por Raul Garcia </span>
+            </div>
+            <div id="social">
+                <a href="https://www.linkedin.com/in/raul-garcia-pedrosa-35a014118/" target="_blank"><i class="fa-brands fa-linkedin"></i>Linkedin</a>
+                <a href="https://github.com/raulG91" target="_blank"><i class="fa-brands fa-square-github"></i>GitHub</a>
+            </div>
+            <div id="contacto">
+
+                <a href="">Contacto</a>
+            </div>
+
+        </footer>
     </div>
-    <footer>
-        <div id="links">
-          <span>Creado por Raul Garcia </span>
-        </div>
-        <div id="social">
-            <a href="https://www.linkedin.com/in/raul-garcia-pedrosa-35a014118/" target="_blank"><i class="fa-brands fa-linkedin"></i>Linkedin</a>
-            <a href="https://github.com/raulG91" target="_blank"><i class="fa-brands fa-square-github"></i>GitHub</a>
-        </div>
-        <div id="contacto">
 
-            <a href="">Contacto</a>
-        </div>
-
-    </footer>
 </body>
 
 
