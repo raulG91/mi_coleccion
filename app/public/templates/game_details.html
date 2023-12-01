@@ -26,14 +26,14 @@
         {% endfor %}
         <div>
           {% if images  %}
-            <img src="{{ url_for('private.static', filename = 'images/' + images) }}" width="500" height="400">
+            <img src="{{ url_for('private.static', filename = 'images/' + images) }}" width="400" height="400">
           {% else %}  
-          <img src="{{ url_for('private.static', filename = 'images/empty.jpg') }}" width="500" height="400">
+          <img src="{{ url_for('private.static', filename = 'images/empty.jpg') }}" width="400" height="400">
           {%endif %}
         </div>
         <div>
             {{ form.name.label }}
-            {{ form.name(size=100) }}<br>
+            {{ form.name(size=40) }}<br>
             {% for error in form.name.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}

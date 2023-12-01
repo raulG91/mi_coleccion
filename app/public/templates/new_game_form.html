@@ -19,84 +19,84 @@
     {% for error in form.form_errors %}
     <span style="color: red;">{{ error }}</span>
     {% endfor %}
-    <div>
-        {{ form.name.label }}
-        {{ form.name(size=100) }}<br>
+    <div class="grid_form">
+        {{ form.name.label }}<br>
+        {{ form.name(size=40) }}<br>
         {% for error in form.name.errors %}
         <span style="color: red;">{{ error }}</span>
         {% endfor %}
     </div>
-    <div>
+    <div class="grid_form" >
         {{ form.description.label }}<br>
         {{ form.description(size=255) }}<br>
         {% for error in form.description.errors %}
         <span style="color: red;">{{ error }}</span>
         {% endfor %}
     </div>
-    <div>
+    <div class="grid_form">
         {{ form.buy_date.label }}
         {{ form.buy_date }}<br>
         {% for error in form.buy_date.errors %}
         <span style="color: red;">{{ error }}</span>
         {% endfor %}
     </div>
-    <div>
+    <div class="grid_form">
         {{ form.price.label }}
         {{ form.price }}<br>
         {% for error in form.price.errors %}
         <span style="color: red;">{{ error }}</span>
         {% endfor %}
     </div>
-    <div>
+    <div class="grid_form">
         {{ form.platform.label }}
         {{ form.platform }}<br>
         {% for error in form.platform.errors %}
         <span style="color: red;">{{ error }}</span>
         {% endfor %}
     </div>
-    <div>
+    <div class="grid_form">
         {{ form.genre.label }}
         {{ form.genre }}<br>
         {% for error in form.genre.errors %}
         <span style="color: red;">{{ error }}</span>
         {% endfor %}
     </div>
-    <div>
+    <div class="grid_form">
         {{ form.region.label }}
         {{ form.region }}<br>
         {% for error in form.region.errors %}
         <span style="color: red;">{{ error }}</span>
         {% endfor %}
     </div>
-    <div>
+    <div class="grid_form">
         {{ form.publisher.label }}
         {{ form.publisher }}<br>
         {% for error in form.publisher.errors %}
         <span style="color: red;">{{ error }}</span>
         {% endfor %}
     </div>
-    <div>
+    <div class="grid_form">
         {{ form.status.label }}
         {{ form.status }}<br>
         {% for error in form.status.errors %}
         <span style="color: red;">{{ error }}</span>
         {% endfor %}
     </div>
-    <div>
+    <div class="grid_form">
         {{ form.buyer_platform.label }}
         {{ form.buyer_platform }}<br>
         {% for error in form.buyer_platform.errors %}
         <span style="color: red;">{{ error }}</span>
         {% endfor %}
     </div>
-    <div>
-        {{ form.image.label }}
+    <div class="grid_form">
+        {{ form.image.label }}<br>
         {{ form.image }}<br>
         {% for error in form.image.errors %}
         <span style="color: red;">{{ error }}</span>
         {% endfor %}
     </div>
-    <div>
+    <div style="display: flex; justify-content: center;">
         {{form.submit()}}
     </div>
 

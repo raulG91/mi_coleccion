@@ -154,11 +154,24 @@ footer {
 .product_container{
 
     display: flex;
-    margin-top: 15px;
-    margin-left: 10px;
-
+    flex-direction: column;
+    width: 100%;
+    align-items: center; 
+    margin-bottom: 20px;
+   /* margin-top: 15px;
+    margin-left: 10px;*/
 }
 
+@media screen and (max-width:480px) {
+  .product_container{
+
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+    margin-left: 5px;
+  }
+  
+}
 
 
 /* General Sytles */
