@@ -75,7 +75,7 @@ footer {
     flex-direction: column;
     align-items:   center;
     gap: 40px;
-    margin-bottom: 45px;
+    margin-bottom: 30px;
     
 
 
@@ -233,6 +233,7 @@ label{
     margin-top: 20px;
     margin-left:20%;
     margin-right: 20%;
+    margin-bottom: 25px;
     display: grid;
     gap: 20px;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -257,6 +258,28 @@ label{
     text-align: center;
     text-decoration: none;
 }
+.item > h3{
+  padding-left: 5px;
+}
+.item > p{
+  padding-left: 5px;
+}
+.product_image{
+
+  width: 360px;
+  height: 360px;
+  margin-bottom: 10px;
+
+
+}
+@media screen and (max-width:480px){
+
+  .product_image{
+    width: 100%;
+    height: 250px;
+  }
+  
+}
 
 /* Styles for user bar */
 .user-bar {
@@ -279,4 +302,14 @@ label{
 .topnav-right {
     float: right;
   }
-  
+/* Styles for images on main screen */
+.main_pictures{
+  width:600px;
+  height:500px
+}
+@media screen and (max-width:480px) {
+  .main_pictures{
+    width:100%;
+    height:340px
+  }
+}

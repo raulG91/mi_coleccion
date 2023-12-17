@@ -26,9 +26,9 @@
         {% endfor %}
         <div>
           {% if images  %}
-            <img src="{{ url_for('private.static', filename = 'images/' + images) }}" width="400" height="400">
+            <img src="{{ url_for('private.static', filename = 'images/' + images) }}" class="product_image">
           {% else %}  
-          <img src="{{ url_for('private.static', filename = 'images/empty.jpg') }}" width="400" height="400">
+          <img src="{{ url_for('private.static', filename = 'images/empty.jpg') }}" class="product_image">
           {%endif %}
         </div>
         <div>
@@ -102,7 +102,7 @@
             {% endfor %}
         </div>
 
-        <div>
+        <div >
             {{form.modify()}} {{form.delete()}}
         </div>
     </form>
