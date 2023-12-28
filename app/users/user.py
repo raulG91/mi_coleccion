@@ -20,6 +20,14 @@ class User(UserMixin):
         self._password = generate_password_hash(password)
     def check_password(self, password):
         return check_password_hash(self.password, password)
+    def get_name(self):
+        return self.name
+    def get_last_name(self):
+        return self.last_name
+    def get_second_last_name(self):
+        return self.second_last_name
+    def get_email(self):
+        return self.email
     def register_user(self,name,last_name,second_last_name, email, password, isActive=True, isAdmin=False):
         """
         Register an user into the application
@@ -76,7 +84,18 @@ class User(UserMixin):
                 self.id = value[0]
                 user_created = True
                 break
-        return user_created   
+        return user_created
+    def _update_user(self):
+        '''Update an user into the database'''
+        
+        update_string = f'update users SET name = \'{self.name}\', last_name = \'{self.last_name}\', second_last_name = \'{self.second_last_name}\', email = \'{self.email}\', password = \'{self.password}\' where id =\'{self.id} \';'
+        user_updated = self.db.execute_update(update_string)
+        return user_updated
+    def _delete_user(self):
+        '''Inactivate user in the DB'''
+        delete_string = f'update users set is_active =\'0\' where id =\'{self.id} \';'
+        user_updated = self.db.execute_update(delete_string)
+        return user_updated       
     def _list_to_object(self,tuple):
         '''
         Get object attributes from a tuple from select query
@@ -131,6 +150,8 @@ class User(UserMixin):
                 self._list_to_object(value)
                 #After read values store in the database check is password hash store 
                 #match with the given password
+                print(self.password)
+                print(password)
                 if self.check_password(password):
                     user_exist = True
                 else:
@@ -139,6 +160,21 @@ class User(UserMixin):
             # No information was found in the databse therefore the user doesn't exist 
             user_exist = False
         return user_exist
+    def update_user(self,name,last_name,second_last_name,email,password):
+        '''
+        Update user attributes
+        '''
+        self.name = name
+        self.last_name = last_name
+        self.second_last_name = second_last_name
+        self.email = email
+        self.password = generate_password_hash(password)
+        result = self._update_user()
+        return result
+    def delete_user(self):
+        '''Delete user'''
+        result = self._delete_user()
+        return result
 
     @staticmethod
     def get_user(id):

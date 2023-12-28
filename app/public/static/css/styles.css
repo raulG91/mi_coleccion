@@ -29,15 +29,12 @@ body {
 footer {
 
     background: black;
-    /*position: fixed;*/
-    /*bottom: 0;*/
     width: 100%;
     height: 35px;
     display: flex;
     flex-direction: row;
     column-gap: 5px;
     justify-content: center;
-    /*margin-top: 10px;*/
   
   }
   
@@ -158,8 +155,6 @@ footer {
     width: 100%;
     align-items: center; 
     margin-bottom: 20px;
-   /* margin-top: 15px;
-    margin-left: 10px;*/
 }
 
 @media screen and (max-width:480px) {
@@ -180,22 +175,26 @@ label{
 }
 
 
-#submit,#delete,#modify{
+#submit,#delete,#modify,#change_user,#delete_user{
 
     background-color: #04AA6D;
     border-radius: 4px;
     font-weight: bold;
     font-size: medium;
     color: white;
-    margin-top: 10px
-   
-
+    margin-top: 10px;
+    margin-right: 5px;
+  
 }
 
-#submit:hover,#delete:hover,#modify:hover{
-   
+#submit:hover,#delete:hover,#modify:hover,#change_user:hover,#delete_user:hover{ 
      opacity: 0.8;
+}
 
+#filter_button,#reset{
+  background-color: #04AA6D;
+  border-radius: 4px;
+  color: white;
 }
 .add_button{
     background-color: #04AA6D;
@@ -205,6 +204,16 @@ label{
     color: white;
     margin-top: 10px;
     margin-left: 5px;
+}
+.simple_button{
+  background-color: #04AA6D;
+  border-radius: 4px;
+  color: white;
+
+}
+.simple_button:hover{
+  opacity: 0.8;
+
 }
 
 .back_container{
@@ -280,6 +289,37 @@ label{
   }
   
 }
+/*Styles for top buttons on landpage */
+.button_block{
+
+  display: flex;
+  flex-direction: row;
+}
+
+/*FIlter form  */
+
+.filter_form{
+  display: none;
+  flex-direction: row;
+  width: 100%;
+  z-index: 10;
+  margin-top: 10px;
+  padding-left: 5px;
+}
+.filter_element{
+  padding: 2px;
+}
+
+@media screen and (max-width:480px) {
+
+  .filter_form{
+
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+}
+
 
 /* Styles for user bar */
 .user-bar {
@@ -312,4 +352,26 @@ label{
     width:100%;
     height:340px
   }
+}
+
+/*Styles for flash messages */
+
+.flash_success {
+
+  background: #04AA6D;
+  border: #04AA6D 2px solid;
+  border-radius: 4px;
+  padding: 16px;
+  z-index: 2;
+
+}
+
+.flash_error{
+
+  background: #e40d0d;
+  border: #e40d0d 2px solid;
+  border-radius: 4px;
+  padding: 16px;
+  z-index: 2;
+
 }

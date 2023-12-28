@@ -3,16 +3,50 @@
 {%block title%}Mi colecion {% endblock%}
 
 {%block content%}
-<div>
+<div class="button_block">
     <form action="" method="post">
 
         <button type="submit" name="newProduct" value="Nuevo Producto" class="add_button">
             <i class="fa-solid fa-plus"></i>
-            Nuevo Producto
+            Juego
         </button>
-
-    </form>
+    </form> 
+        <button type="submit" name="filter" value="Filtrar" class="add_button" onclick="filter()">
+            <i class="fa-solid fa-filter"></i> Filtrar
+        </button>
+    
 </div>
+    <form action="" id="filter" method="post" class = "filter_form">
+        <div class="filter_element">
+            {{form.platform.label}}
+            {{ form.platform}}
+        </div>
+        <div class="filter_element">
+            {{form.genre.label}}
+            {{form.genre}}
+        </div>  
+        <div class="filter_element">
+            {{form.region.label}}
+            {{form.region}}
+        </div> 
+        <div class="filter_element">
+
+            {{form.filter()}}
+            {{form.reset()}}
+
+            <!--
+            <button type="submit" name="filterProd" value="filterProd" class="simple_button">
+                 Filter
+            </button>
+      
+            <button type="submit" name="reset" value="reset" class="simple_button">
+                Reset
+            </button>
+            -->
+        </div> 
+        </form>
+
+
 
 <div class="grid_container">
 

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="Retro, Games, Juegos, Collection, Collecion">
+    <meta name="description" content="Retro games colection">
+    <meta name="author" content="Raul Garcia">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for("public.static", filename="/css/styles.css" ) }}">
+    <link rel="shortcut icon" href="{{ url_for('public.static', filename = 'images/Logo.png')}}"  />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/55cc5c8e5d.js" crossorigin="anonymous"></script>
+
+    <title>Detalles</title>
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+
+        <div class="main_content">
+            <div class="back_container">
+                <a href="{{url_for('public.landpage')}}"> 
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Atras 
+                </a>
+            </div>    
+                <div class="container_login_form">
+                    <div>
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                          
+                          {% for category, message in messages %}
+                            {% if category == "error"%}
+                                <div class="flash_error">
+                                    <span>{{ message }}</span>
+                                </div>
+                            {% else %}
+                                 <div class="flash_success">
+                                    <span>{{ message }}</span>
+                                 </div>                                   
+                            {% endif %}    
+                          {% endfor %}
+                          
+                        {% endif %}
+                      {% endwith %}
+                    </div>
+                    <div class = "register_form">
+                        <form action="" method="post">
+                            {{ form.hidden_tag() }}
+                                {% for error in form.form_errors %}
+                            <span style="color: red;">{{ error }}</span>
+                            {% endfor %}
+
+                            <div class="grid_form">
+                                {{ form.name.label }}<br>
+                                {{ form.name(size=40) }}<br>
+                                {% for error in form.name.errors %}
+                                <span style="color: red;">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="grid_form">
+                                {{ form.last_name.label }}<br>
+                                {{ form.last_name(size=40) }}<br>
+                                {% for error in form.last_name.errors %}
+                                <span style="color: red;">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="grid_form">
+                                {{ form.second_last_name.label }}<br>
+                                {{ form.second_last_name(size=40) }}<br>
+                                {% for error in form.second_last_name.errors %}
+                                <span style="color: red;">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="grid_form">
+                                {{ form.email.label }}<br>
+                                {{ form.email(size =40) }}<br>
+                                {% for error in form.email.errors %}
+                                <span style="color: red;">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="grid_form">
+                                {{ form.password.label }}<br>
+                                {{ form.password(size = 40) }}<br>
+                                {% for error in form.password.errors %}
+                                <span style="color: red;">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="grid_form">
+                                {{ form.password_repeat.label }}<br>
+                                {{ form.password_repeat(size = 40) }}<br>
+                                {% for error in form.password_repeat.errors %}
+                                <span style="color: red;">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div style="display: flex; justify-content: center;">
+                                {{ form.change_user() }}{{form.delete_user()}}
+                            </div>
+                        </form>
+                    </div>
+            </div>
+        </div>  
+          <footer>
+              <div id="links">
+                  <span>Creado por Raul Garcia </span>
+              </div>
+              <div id="social">
+                <a href="https://www.linkedin.com/in/raul-garcia-pedrosa-35a014118/" target="_blank"><i class="fa-brands fa-linkedin"></i>Linkedin</a>
+                <a href="https://github.com/raulG91" target="_blank"><i class="fa-brands fa-square-github"></i>GitHub</a>
+            </div>
+              <div id="contacto">
+  
+                  <a href="">Contacto</a>
+              </div>
+  
+          </footer>
+    </div>  
+    
+</body>
+
+</html>

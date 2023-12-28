@@ -3,7 +3,7 @@
 from flask import abort, render_template,request,redirect,url_for,current_app
 from flask_login import current_user, login_required
 from . import public_bp
-from .forms import NewGameForm, GameDetailsForm
+from .forms import NewGameForm, GameDetailsForm, FIlterForm
 from .model import Product,Game, Controller
 from werkzeug.utils import secure_filename
 import os
@@ -20,10 +20,45 @@ def index():
 @public_bp.route('/landpage', methods=['GET','POST'])
 @login_required
 def landpage():
+    filter_form = FIlterForm()
     if request.method == 'POST':
         if request.form.get('newProduct'):
             #Redirec to new game action
             return redirect(url_for('public.new_game'))
+        elif request.form.get("filter_button"):
+            if filter_form.validate_on_submit:
+                platform = filter_form.platform.data
+                genre = filter_form.genre.data
+                region = filter_form.region.data
+                id_user =  current_user.get_id()
+                products= Controller.get_games_for_user(id_user)
+                messages = []
+                filtered_products = []
+                for product in products:
+                    if (platform!= '' and product.get_platform() == platform) and (genre != '' and genre == product.get_genre()) and (region != '' and region == product.get_region()):
+                        filtered_products.append(product)   
+                    elif(platform == '' and genre !='' and region != '' and product.get_genre() == genre and product.get_region() == region):
+                        filtered_products.append(product)
+                    elif(platform == '' and genre == '' and region != '' and product.get_region() == region):
+                        filtered_products.append(product) 
+                    elif (platform == '' and genre != '' and region == '' and product.get_genre() == genre):
+                        filtered_products.append(product)        
+                    elif (genre == '' and platform !='' and region != '' and product.get_platform() == platform and product.get_region() == region ):
+                        filtered_products.append(product) 
+                    elif(genre == '' and platform == '' and region != '' and product.get_region()==region):
+                        filtered_products.append(product) 
+                    elif(genre == '' and platform != '' and region == '' and product.get_platform() == platform): 
+                        filtered_products.append(product)   
+                    elif (region == '' and platform != '' and genre != '' and product.get_platform()== platform and product.get_genre() == genre):
+                        filtered_products.append(product)   
+                    elif (region == '' and platform !='' and genre == '' and product.get_platform()== platform):
+                        filtered_products.append(product)
+                    elif(region == '' and platform == '' and genre != '' and product.get_genre() == genre):
+                        filtered_products.append(product)
+                    elif(platform == '' and genre =='' and region == ''):
+                        filtered_products = products.copy()     
+                return render_template('landpage.html', form = filter_form, messages=messages, products = filtered_products)
+
         else: 
              return redirect(url_for('public.landpage'))    
     elif request.method == 'GET':
@@ -31,9 +66,9 @@ def landpage():
 
         #Get Products 
         id_user =  current_user.get_id()
-        products = Controller.get_games_for_user(id_user)
+        products= Controller.get_games_for_user(id_user)
         messages = []
-        return render_template('landpage.html', messages=messages, products = products)
+        return render_template('landpage.html', form = filter_form, messages=messages, products = products)
 
 @public_bp.route('/new_game', methods=['GET','POST'])
 @login_required
@@ -168,6 +203,14 @@ def product_details(product_id:int):
                 messages = ["Se ha producido durante el borrado"]
                 images = game.get_image()
                 return render_template("game_details.html",form = form, messages = messages, images = images)    
+
+@public_bp.route('/filter', methods=['GET','POST'])
+@login_required
+def filter():
+    form = FIlterForm()
+
+    if form.validate_on_submit:
+        print("Hola")
 
            
         

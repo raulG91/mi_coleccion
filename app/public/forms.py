@@ -14,6 +14,16 @@ genres = [('Accion','Accion'),('Aventuras','Aventuras'),('Arcade','Arcade'),('Lu
 
 regions = [('PAL','PAL'),('NTSC','NTSC'),('Other', 'Otra')]
 
+platforms_filter = platforms.copy()
+platforms_filter.insert(0,('',''))
+
+genres_filter = genres.copy()
+genres_filter.insert(0,('',''))
+
+regions_filter = regions.copy()
+regions_filter.insert(0,('',''))
+
+
 status = [('Nuevo','Nuevo'),('Como nuevo','Como nuevo'),('Usado','Usado'),('Muy usado','Muy Usado')]
 
 buyer = [('Game','Game'),('El corte ingles','El Corte Ingles'),('Media Markt','Media Markt'),
@@ -47,3 +57,10 @@ class GameDetailsForm(FlaskForm):
   buyer_platform = SelectField('Comprado en',choices=buyer)
   modify = SubmitField('Modificar', name = 'modify')
   delete = SubmitField("Borrar Producto", name = "delete")
+
+class FIlterForm(FlaskForm):
+  platform = SelectField('Plataforma',choices=platforms_filter)
+  genre = SelectField('Genero', choices=genres_filter)
+  region = SelectField('Region',choices=regions_filter)
+  filter = SubmitField('Filtrar', name = 'filter_button')
+  reset = SubmitField("Reset", name = "reset")

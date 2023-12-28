@@ -1,8 +1,8 @@
 
-from flask import abort, render_template,redirect,url_for
+from flask import abort, render_template,redirect,url_for,request,flash
 from . import user_bp
-from .forms import SingUpForm,LoginForm
-from flask_login import LoginManager, current_user,login_user,logout_user
+from .forms import SingUpForm,LoginForm, UserDetails
+from flask_login import LoginManager, current_user,login_user,logout_user,login_required
 from .user import User
 
 @user_bp.route("/register",methods=["POST","GET"])
@@ -22,7 +22,6 @@ def register_user():
         if result == 0:
             #User has been created successfully, login it
             result = login_user(new_user, remember=True)
-            print("Result of login " + str(result))
             #Redirect to the main page
             return redirect(url_for('public.landpage'))
         elif result == 1:
@@ -67,3 +66,45 @@ def do_login():
 def logout():
     logout_user()
     return redirect(url_for('public.index'))
+
+@user_bp.route("/details",methods=['GET','POST'])
+@login_required
+def user_details():
+     user_details_form = UserDetails()
+     user = User.get_user(current_user.get_id())
+
+     if request.method == "GET":
+        # if request is a GET render the template and fill with data
+        # already retrieved from the DB
+        user_details_form.name.data = user.get_name()
+        user_details_form.last_name.data = user.get_last_name()
+        user_details_form.second_last_name.data = user.get_second_last_name()
+        user_details_form.email.data = user.get_email()
+        return render_template("user_details.html", form = user_details_form)
+     
+     elif request.method == "POST":
+        if request.form.get("change_user"):
+             #if user modifies profile, save it
+            if user_details_form.validate_on_submit():
+             name = user_details_form.name.data
+             last_name = user_details_form.last_name.data
+             second_last_name = user_details_form.second_last_name.data
+             email = user_details_form.email.data
+             password = user_details_form.password.data
+             result = user.update_user(name,last_name,second_last_name,email,password)
+
+             if result:
+                 flash("Usuario modificado",category="info")
+                 return redirect(url_for('user.user_details'))
+             else:
+                 flash("Error al actualizar el usuario", category="error")
+                 return redirect(url_for('user.user_details'))
+        elif request.form.get("delete_user"):
+            result = user.delete_user()
+
+            if result:
+                logout_user()
+                return redirect(url_for('public.index'))
+            else:
+                flash("Error al eliminar el usuario",category="error")     
+                return redirect(url_for('user.user_details'))
