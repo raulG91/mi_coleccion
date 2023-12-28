@@ -17,3 +17,4 @@ class ProdConfig(Config):
     USER = 'raulg91'
     PASSWORD = 'Database+2023'
     DATABASE = 'raulg91$mi_coleccion'
+    UPLOAD_FOLDER = "/home/raulg91/mi_coleccion/app/private/static/images"
