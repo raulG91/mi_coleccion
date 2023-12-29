@@ -10,6 +10,8 @@ import os
 from uuid import uuid4
 
 
+
+
 @public_bp.route('/')
 def index():
     if  current_user.is_authenticated:

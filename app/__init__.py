@@ -2,9 +2,16 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_login import LoginManager
 from .users import user
 from .private import db
+from pathlib import Path
+
+
 def create_app():
      app = Flask(__name__)
+
+
      app.config.from_object("config.ProdConfig")
+     path = Path(__file__).parent.resolve()
+     app.config["UPLOAD_FOLDER"] = str(path) + app.config["UPLOAD_FOLDER"]
      #Import BluePrint for public part
      from .public import public_bp
      #Register BluePrint
