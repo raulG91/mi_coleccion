@@ -9,7 +9,7 @@ platforms = [('Master System','Master system'),('Nintendo Nes','Nintendo Nes'),(
                                                ('Xbox Series S/X','Xbox Series S/X'),('Nintendo DS','Nintendo DS'),
                                                ('PSP','PSP'),('PS Vita','PS Vita'),('Nintendo 3DS','Nintendo 3DS')]
 
-genres = [('Accion','Accion'),('Aventuras','Aventuras'),('Arcade','Arcade'),('Lucha','Lucha'),('Beat \'Em Up','Beat \'Em Up'),('Hack and Slash','Hack and Slash'),('Plataformas','Plataformas'),('Disparos','Disparos'),('Estrategia','Estrategia'),
+genres = [('Accion','Accion'),('Aventuras','Aventuras'),('Arcade','Arcade'),('Lucha','Lucha'),('Beat Em Up','Beat \'Em Up'),('Hack and Slash','Hack and Slash'),('Plataformas','Plataformas'),('Disparos','Disparos'),('Estrategia','Estrategia'),
                                          ('Conduccion','Conduccion'),('Deportes','Deportes'),('Rol','Rol'),('Simulacion','Simulacion')]
 
 regions = [('PAL','PAL'),('NTSC','NTSC'),('Other', 'Otra')]
@@ -26,7 +26,7 @@ regions_filter.insert(0,('',''))
 
 status = [('Nuevo','Nuevo'),('Como nuevo','Como nuevo'),('Usado','Usado'),('Muy usado','Muy Usado')]
 
-buyer = [('Game','Game'),('El corte ingles','El Corte Ingles'),('Media Markt','Media Markt'),
+buyer = [('Amazon','Amazon'),('Game','Game'),('El corte ingles','El Corte Ingles'),('Media Markt','Media Markt'),
                                                       ('Xtralife','Xtralife'),('Cex','Cex'),('Fnac','Fnac'),('PC Componentes', 'PC Componentes'),('Worten','Worten'),
                                                       ('Carrefour','Carrefour'),('Ebay','Ebay'),('Wallapop','Wallapop'),('Vinted','Vinted'),('Eneba','Eneba'),('Otra','Otra')]
 
@@ -41,7 +41,7 @@ class NewGameForm(FlaskForm):
   publisher = StringField('Publisher', validators=[Length(max=255)])
   status = SelectField('Estado',choices=status)
   buyer_platform = SelectField('Comprado en',choices=buyer)
-  image = FileField('Imagen',name="upload-image",validators=[FileAllowed(['jpg', 'png'], 'Solo se permiten imágenes')])
+  image = FileField('Imagen',name="upload-image",validators=[FileAllowed(['jpg', 'png','jpeg','heic'], 'Solo se permiten imágenes')])
   submit = SubmitField('Guardar')
 
 class GameDetailsForm(FlaskForm):
