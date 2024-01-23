@@ -25,7 +25,24 @@ This application has been deployed into Pythonanywhere.
 
 1. Install `requirements.txt` file in a virtual environment
 2. Use file `databse.sql` to create needed tables and to have some examples.
-3. Update `config.py` with needed details. It contains 2 clases, one is used for local development and the other for production. Create a new SECRET_KEY to be used in your app.
+3. Create  `config.py` with needed details. It contains 2 clases, one is used for local development and the other for production. Create a new SECRET_KEY to be used in your app.
+   As example:
+   ``` 
+   class Config(object):
+    SECRET_KEY = ''
+    UPLOAD_FOLDER = "/private/static/images"
+
+    class DevConfig(Config):
+        DEBUG = True
+        TESTING = True    
+        HOST = 'localhost'
+        USER = 'root'
+        PASSWORD = ''
+        DATABASE = 'mi_coleccion'
+    class ProdConfig(Config):
+        DEBUG = False
+        TESTING = False      
+    ```
 
 # Roadmap
 
