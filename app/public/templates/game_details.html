@@ -4,11 +4,12 @@
 
 {%block content%}
 <div class="back_container">
-
+   <!--
     <a href="{{url_for('public.landpage')  }}"> 
         <i class="fa-solid fa-arrow-left"></i>
         Atras 
-    </a>
+    </a> -->
+    <button onclick="goBack()" class="add_button"><i class="fa-solid fa-arrow-left"></i>Atras</button>
 </div>
 
 <div>
@@ -31,70 +32,70 @@
           <img src="{{ url_for('private.static', filename = 'images/empty.jpg') }}" class="product_image">
           {%endif %}
         </div>
-        <div>
+        <div class="grid_form">
             {{ form.name.label }}
             {{ form.name(size=40) }}<br>
             {% for error in form.name.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </div>
-        <div>
+        <div class="grid_form">
             {{ form.description.label }}<br>
             {{ form.description(size=255) }}<br>
             {% for error in form.description.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </div>
-        <div>
+        <div class="grid_form">
             {{ form.buy_date.label }}
             {{ form.buy_date }}<br>
             {% for error in form.buy_date.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </div>
-        <div>
+        <div class="grid_form">
             {{ form.price.label }}
             {{ form.price }}<br>
             {% for error in form.price.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </div>
-        <div>
+        <div class="grid_form">
             {{ form.platform.label }}
             {{ form.platform }}<br>
             {% for error in form.platform.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </div>
-        <div>
+        <div class="grid_form">
             {{ form.genre.label }}
             {{ form.genre }}<br>
             {% for error in form.genre.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </div>
-        <div>
+        <div class="grid_form">
             {{ form.region.label }}
             {{ form.region }}<br>
             {% for error in form.region.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </div>
-        <div>
+        <div class="grid_form">
             {{ form.publisher.label }}
             {{ form.publisher }}<br>
             {% for error in form.publisher.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </div>
-        <div>
+        <div class="grid_form">
             {{ form.status.label }}
             {{ form.status }}<br>
             {% for error in form.status.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </div>
-        <div>
+        <div class="grid_form">
             {{ form.buyer_platform.label }}
             {{ form.buyer_platform }}<br>
             {% for error in form.buyer_platform.errors %}

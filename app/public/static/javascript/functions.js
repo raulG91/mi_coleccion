@@ -10,3 +10,7 @@ function filter(){
     }
     
 }
+function goBack(){
+    window.history.back()
+
+}

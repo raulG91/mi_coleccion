@@ -202,9 +202,17 @@ class Game(Product):
             return result_update       
 class Controller:
     @classmethod
-    def get_games_for_user(self,id_user):
+    def get_games_for_user(self,id_user,min:int,offset:int,condition:dict = None):
         games = []
-        query_string = f'select p.id_product,p.name,p.description,p.buy_date,p.price,g.platform,g.genre,g.region,g.publisher,g.status,g.buyer_platform, g.image from product p inner join game g on p.id_product = g.id_product and p.id_user_fk = {id_user}'
+        if condition:
+            condition_string = ""
+            for key in condition:
+                if condition[key]:
+                    condition_string+=f' and {key} = \'{condition[key]}\''
+            query_string = f'select p.id_product,p.name,p.description,p.buy_date,p.price,g.platform,g.genre,g.region,g.publisher,g.status,g.buyer_platform, g.image from product p inner join game g on p.id_product = g.id_product {condition_string} and p.id_user_fk = {id_user} LIMIT {min},{offset}'
+        
+        else:
+            query_string = f'select p.id_product,p.name,p.description,p.buy_date,p.price,g.platform,g.genre,g.region,g.publisher,g.status,g.buyer_platform, g.image from product p inner join game g on p.id_product = g.id_product and p.id_user_fk = {id_user} LIMIT {min},{offset}'
         database = db_connection()
         query_result = database.execute_query(query_string)
         if query_result:
@@ -224,4 +232,23 @@ class Controller:
                 new_game.set_buyer_platform(value[10])
                 new_game.set_image(value[11])
                 games.append(new_game)
-        return games        
+        return games    
+    @classmethod
+    def get_total_items(self,id_user,condition:dict=None):
+        '''
+        Get number of products for user with or without condition
+        '''
+        if condition:
+            condition_string = ""
+            for key in condition:
+                if condition[key]:
+                    condition_string+=f' and {key} = \'{condition[key]}\''
+            query_string = f'select count(*) as total from product p join game g on p.id_product = g.id_product and p.id_user_fk = {id_user} {condition_string}'
+        else:
+            query_string = f'select count(*) as total from product where id_user_fk = {id_user}'    
+        database = db_connection()
+        query_result = database.execute_query(query_string=query_string)
+        number_products = 0
+        if query_result:
+            number_products = query_result[0][0]
+        return number_products    

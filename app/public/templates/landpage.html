@@ -13,8 +13,7 @@
     </form> 
         <button type="submit" name="filter" value="Filtrar" class="add_button" onclick="filter()">
             <i class="fa-solid fa-filter"></i> Filtrar
-        </button>
-    
+        </button>         
 </div>
     <form action="" id="filter" method="post" class = "filter_form">
         <div class="filter_element">
@@ -33,22 +32,13 @@
 
             {{form.filter()}}
             {{form.reset()}}
-
-            <!--
-            <button type="submit" name="filterProd" value="filterProd" class="simple_button">
-                 Filter
-            </button>
-      
-            <button type="submit" name="reset" value="reset" class="simple_button">
-                Reset
-            </button>
-            -->
         </div> 
         </form>
 
 
 
 <div class="grid_container">
+   
 
     {% for product in products %}
 
@@ -66,7 +56,71 @@
 
     {% endfor %}
 
+</div>  
 
+<div class="pagination_box">
+    <!--First page will be always visible-->
+    <div>
+    {% if total_pages > 1 %}
+        {% if filter and current_page == 1 %}
+            <a href="{{ url_for("public.landpage", page = 1, filter=filter) }}" class="active">1</a>
+        {% elif filter and current_page != 1 %}
+            <a href="{{ url_for("public.landpage", page = 1, filter=filter) }}" class="page_item">1</a>
+        {% elif current_page == 1  %}    
+            <a href="{{ url_for("public.landpage", page = 1) }}" class="active">1</a>
+        {%  else %}  
+            <a href="{{ url_for("public.landpage", page = 1) }}" class="page_item">1</a>
+        {% endif %}  
+    {% endif %}    
+    </div>  
+    {% set lower = current_page - 3 %}
+    {%  set upper = current_page + 3 %}
+    {% if lower <=  1 %}
+        {% set lower = 2 %}
+    {% endif %}    
+    {% if upper >= total_pages %}
+        {% set upper = total_pages -1  %}
+    {% endif %}
+    {% if lower -1 >= 2 %}
+        <div>
+            ...
+        </div>
+    {% endif  %}
+    {% for value in range(lower,upper+1) %}
+    <div>
+        
+        {% if filter and value != current_page %}
+            <a href="{{ url_for("public.landpage", page = value, filter=filter) }}" class="page_item">{{ value }}</a>
+         
+        {% elif filter and value == current_page %}    
+            <a href="{{ url_for("public.landpage", page = value, filter=filter) }}" class="active">{{ value }}</a>
+        {% elif value == current_page %}
+            <a href="{{ url_for("public.landpage", page = value) }}" class="active">{{ value }}</a>
+        
+        {% else %}
+            <a href="{{ url_for("public.landpage", page = value) }}" class="page_item">{{ value }}</a>    
+        {% endif %}    
+    </div>
+    {% endfor %}
+    {% if total_pages - upper >= 2%}
+        <div>
+            ...
+        </div>
+    {% endif %}
+    <!--Last page -->
+    <div>
+     {% if total_pages != 0 %}   
+        {% if filter and current_page == total_pages %}
+            <a href="{{ url_for("public.landpage", page = total_pages, filter=filter) }}" class="active">{{total_pages}}</a>
+        {% elif filter and current_page != total_pages %}
+            <a href="{{ url_for("public.landpage", page = total_pages, filter=filter) }}" class="page_item">{{total_pages}}</a>
+        {% elif current_page == total_pages %}    
+            <a href="{{ url_for("public.landpage", page = total_pages) }}" class="active">{{total_pages}}</a>
+        {% else %}  
+            <a href="{{ url_for("public.landpage", page = total_pages) }}" class="page_item">{{total_pages}}</a>
+        {% endif %} 
+     {% endif %}   
+    </div>      
 </div>
 
 {%endblock%}

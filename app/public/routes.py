@@ -8,8 +8,8 @@ from .model import Product,Game, Controller
 from werkzeug.utils import secure_filename
 import os
 from uuid import uuid4
-
-
+import math
+import json
 
 
 @public_bp.route('/')
@@ -19,10 +19,13 @@ def index():
     else:    
         return render_template('index.html')
 
-@public_bp.route('/landpage', methods=['GET','POST'])
+
+@public_bp.route('/landpage',defaults={'page': None,}, methods=['GET','POST'])
+@public_bp.route('/landpage/<int:page>',methods=['GET','POST'])
 @login_required
-def landpage():
+def landpage(page:int):
     filter_form = FIlterForm()
+    conditions = {}
     if request.method == 'POST':
         if request.form.get('newProduct'):
             #Redirec to new game action
@@ -33,45 +36,41 @@ def landpage():
                 genre = filter_form.genre.data
                 region = filter_form.region.data
                 id_user =  current_user.get_id()
-                products= Controller.get_games_for_user(id_user)
+                #Set a dictionary with all conditions
+                conditions['genre'] = genre
+                conditions['region'] = region
+                conditions['platform'] = platform
+                items_page = current_app.config["ITEMS_PAGE"]  
+                number_products = Controller.get_total_items(id_user=id_user,condition=conditions)
+                pages = calculate_pages(number_products,items_page)
+                filtered_products= Controller.get_games_for_user(id_user,0,items_page,condition=conditions)
                 messages = []
-                filtered_products = []
-                for product in products:
-                    if (platform!= '' and product.get_platform() == platform) and (genre != '' and genre == product.get_genre()) and (region != '' and region == product.get_region()):
-                        filtered_products.append(product)   
-                    elif(platform == '' and genre !='' and region != '' and product.get_genre() == genre and product.get_region() == region):
-                        filtered_products.append(product)
-                    elif(platform == '' and genre == '' and region != '' and product.get_region() == region):
-                        filtered_products.append(product) 
-                    elif (platform == '' and genre != '' and region == '' and product.get_genre() == genre):
-                        filtered_products.append(product)        
-                    elif (genre == '' and platform !='' and region != '' and product.get_platform() == platform and product.get_region() == region ):
-                        filtered_products.append(product) 
-                    elif(genre == '' and platform == '' and region != '' and product.get_region()==region):
-                        filtered_products.append(product) 
-                    elif(genre == '' and platform != '' and region == '' and product.get_platform() == platform): 
-                        filtered_products.append(product)   
-                    elif (region == '' and platform != '' and genre != '' and product.get_platform()== platform and product.get_genre() == genre):
-                        filtered_products.append(product)   
-                    elif (region == '' and platform !='' and genre == '' and product.get_platform()== platform):
-                        filtered_products.append(product)
-                    elif(region == '' and platform == '' and genre != '' and product.get_genre() == genre):
-                        filtered_products.append(product)
-                    elif(platform == '' and genre =='' and region == ''):
-                        filtered_products = products.copy()     
-                return render_template('landpage.html', form = filter_form, messages=messages, products = filtered_products)
-
+                return render_template('landpage.html', form = filter_form, messages=messages, products = filtered_products,filter = json.dumps(conditions), current_page = 1, total_pages=pages,total_products = number_products)
         else: 
              return redirect(url_for('public.landpage'))    
     elif request.method == 'GET':
-        #if there is a get request render template landpage
-
-        #Get Products 
+        filter_conditions = None
+        filter = request.args.get("filter")
+        if filter:
+            filter_conditions = json.loads(filter)            
         id_user =  current_user.get_id()
-        products= Controller.get_games_for_user(id_user)
+        items_page = current_app.config["ITEMS_PAGE"] 
+        number_products = Controller.get_total_items(id_user=id_user,condition=filter_conditions)
+        pages = calculate_pages(number_products,items_page)
+        if page:
+            #Get limits for pagination
+            lower_limit = items_page * (page-1)
+        else:
+            page = 1
+            lower_limit = 0
+         #Get Products 
+        products= Controller.get_games_for_user(id_user,lower_limit,items_page,condition=filter_conditions)
         messages = []
-        return render_template('landpage.html', form = filter_form, messages=messages, products = products)
-
+        if filter_conditions:
+            return render_template('landpage.html', form = filter_form, messages=messages, products = products,filter = json.dumps(filter_conditions),current_page = page, total_pages = pages, total_products = number_products)
+        else:
+             return render_template('landpage.html', form = filter_form, messages=messages, products = products,current_page = page, total_pages = pages,total_products = number_products)
+           
 @public_bp.route('/new_game', methods=['GET','POST'])
 @login_required
 def new_game():
@@ -215,4 +214,7 @@ def filter():
         print("Hola")
 
            
-        
+def calculate_pages(elements,items_page:int)->int:
+    #Get configuration parameter 
+    num_pages = math.ceil(elements/items_page)
+    return num_pages

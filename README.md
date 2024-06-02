@@ -31,6 +31,7 @@ This application has been deployed into Pythonanywhere.
    class Config(object):
     SECRET_KEY = ''
     UPLOAD_FOLDER = "/private/static/images"
+    ITEMS_PAGE = 30 #Items per page for pagination
 
     class DevConfig(Config):
         DEBUG = True
@@ -47,6 +48,5 @@ This application has been deployed into Pythonanywhere.
 # Roadmap
 
 - Add statitics about your games
-- Improve performance
 - Allow to update multiple images for each game
 

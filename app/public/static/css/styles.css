@@ -13,6 +13,11 @@ body {
     height: 100%;
 }
 
+textarea{
+  width: 300px
+}
+
+
 * {
   box-sizing: border-box;
 }
@@ -294,6 +299,7 @@ label{
 
   display: flex;
   flex-direction: row;
+  
 }
 
 /*FIlter form  */
@@ -375,3 +381,29 @@ label{
   z-index: 2;
 
 }
+
+/* Styles for pagination */
+
+.pagination_box{
+  margin-top: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+.pagination_box a{
+  color :black;
+  padding: 8px 10px;
+  margin-right: 5px;
+  text-decoration: none;
+}
+.pagination_box a.active{
+  color: white;
+  background-color: #04AA6D;
+
+}
+.pagination_box a:hover:not(.active){
+  background-color: #ddd;
+}
+
