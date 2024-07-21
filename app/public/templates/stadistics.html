@@ -1,0 +1,35 @@
+{% extends "base_template.html" %}
+
+{%block title%}Mi colecion {% endblock%}
+
+{%block content%}
+
+<div class="back_container">
+     <button onclick="goBack()" class="add_button"><i class="fa-solid fa-arrow-left"></i>Atras</button>
+ </div>
+
+ <div class="stadistics">
+
+   <div id="basic_stats" class="stats_item">
+        
+      <ul>
+         <h1>Estadísticas</h1>
+         <li>Numero total articulos: {{total_items}}</li>
+         <li>Coste total: {{total_price}}</li>
+         <li>Articulos comprados este mes: {{items_month}}</li>
+         <li>Articulos comprados este año: {{items_year}}</li>
+      </ul>
+   </div>
+   <div class="stats_item">
+      <div id="platform_dist" c>
+         <script type="text/javascript">
+            var elements = {{games_platform|tojson }};
+            distribution_platform(elements)</script>
+      </div>
+   </div>
+   
+ 
+
+ </div>
+
+{% endblock %}

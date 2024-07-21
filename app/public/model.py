@@ -1,7 +1,8 @@
 from app.private.db import db_connection
 import os
 from flask import current_app
-
+import json
+from datetime import datetime
 class Product:
     def __init__(self,name,description,buy_date,price):
         self._id_product = 0
@@ -252,3 +253,75 @@ class Controller:
         if query_result:
             number_products = query_result[0][0]
         return number_products    
+class Stats:
+
+    def __init__(self):
+        pass    
+    
+    def get_by_platform(self,id_user)->list:
+        '''
+        Get number of games by platform 
+        :param id_user: User id
+        :return: JSON String, array with many objects as games by platform. Object returned will have 2 keys: platform and number
+        '''
+
+        #Create query string 
+        query_string = f'SELECT count(platform),platform FROM game g INNER join product p on g.id_product = p.id_product and p.id_user_fk = {id_user} GROUP by platform;'
+        database = db_connection()
+        query_result = database.execute_query(query_string=query_string)
+        result = []
+        for value in query_result:
+            object = {
+                "platform":value[1],
+                "number":value[0]
+            }
+            result.append(object)
+        result_dict = {
+            "elements": result
+        }
+        return json.dumps(result_dict)    
+    
+    def get_total_price(self,id_user):
+
+        query_string = f'SELECT sum(price) FROM product WHERE id_user_fk = \'{id_user}\';'
+        database = db_connection()
+        query_result = database.execute_query(query_string=query_string)
+        total = 0
+        for value in query_result:
+            if value[0]:
+                total = value[0]
+            else:
+                total = 0    
+        return total    
+
+    
+    def get_producs_current_year(self,id_user)->int:
+        '''
+        Return number of products bought during this year
+        :param id_user: User id to check
+        :return Number of products bought during this year
+        '''
+        today = datetime.now().strftime("%Y-%m-%d")
+        begin_year = datetime(datetime.now().year,1,1).strftime("%Y-%m-%d")
+        query_string = f'SELECT count(*) FROM product where buy_date BETWEEN \'{begin_year}\' and \'{today}\' and id_user_fk = {id_user} ;'
+        database = db_connection()
+        query_result = database.execute_query(query_string=query_string)
+        num_products = 0
+        for value in query_result:
+            num_products = value[0]
+        return num_products
+    def get_products_current_month(self,id_user):
+        '''
+        Return number of products bought during this month
+        :param id_user: User id to check
+        :return Number of products bought during this month
+        '''        
+        today = datetime.now().strftime("%Y-%m-%d")
+        begin_month = datetime(datetime.now().year,datetime.now().month,1).strftime("%Y-%m-%d")
+        query_string = f'SELECT count(*) FROM product where buy_date BETWEEN \'{begin_month}\' and \'{today}\' and id_user_fk = {id_user} ;'
+        database = db_connection()
+        query_result = database.execute_query(query_string=query_string)
+        num_products = 0
+        for value in query_result:
+            num_products = value[0]
+        return num_products

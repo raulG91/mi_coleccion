@@ -14,6 +14,7 @@ This application has been deployed into Pythonanywhere.
 - Add video games
 - Update/delete item
 - Filter items
+- Get stadistics 
 
 # Technology
 
@@ -47,6 +48,6 @@ This application has been deployed into Pythonanywhere.
 
 # Roadmap
 
-- Add statitics about your games
 - Allow to update multiple images for each game
+- Add extra information about a game, for example if you have play it. 
 

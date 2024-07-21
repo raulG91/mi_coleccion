@@ -4,7 +4,7 @@ from flask import abort, render_template,request,redirect,url_for,current_app
 from flask_login import current_user, login_required
 from . import public_bp
 from .forms import NewGameForm, GameDetailsForm, FIlterForm
-from .model import Product,Game, Controller
+from .model import Product,Game, Controller,Stats
 from werkzeug.utils import secure_filename
 import os
 from uuid import uuid4
@@ -46,6 +46,8 @@ def landpage(page:int):
                 filtered_products= Controller.get_games_for_user(id_user,0,items_page,condition=conditions)
                 messages = []
                 return render_template('landpage.html', form = filter_form, messages=messages, products = filtered_products,filter = json.dumps(conditions), current_page = 1, total_pages=pages,total_products = number_products)
+        elif request.form.get("char"):
+                return redirect(url_for("public.stadistics"))
         else: 
              return redirect(url_for('public.landpage'))    
     elif request.method == 'GET':
@@ -213,7 +215,17 @@ def filter():
     if form.validate_on_submit:
         print("Hola")
 
-           
+@public_bp.route('/stadistics',methods=['GET','POST'])
+def stadistics():
+    id_user =  current_user.get_id()
+    total_items = Controller.get_total_items(id_user)
+    stats = Stats()
+    games_platform = stats.get_by_platform(id_user=id_user)
+    print(games_platform)
+    current_year = stats.get_producs_current_year(id_user)
+    current_month = stats.get_products_current_month(id_user=id_user)
+    total_price = stats.get_total_price(id_user=id_user)
+    return render_template("stadistics.html", total_items = total_items,items_year = current_year, items_month = current_month,total_price = total_price,games_platform=games_platform)           
 def calculate_pages(elements,items_page:int)->int:
     #Get configuration parameter 
     num_pages = math.ceil(elements/items_page)
