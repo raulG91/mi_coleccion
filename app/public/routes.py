@@ -10,6 +10,9 @@ import os
 from uuid import uuid4
 import math
 import json
+from PIL import Image
+from io import BytesIO
+
 
 
 @public_bp.route('/')
@@ -72,7 +75,25 @@ def landpage(page:int):
             return render_template('landpage.html', form = filter_form, messages=messages, products = products,filter = json.dumps(filter_conditions),current_page = page, total_pages = pages, total_products = number_products)
         else:
              return render_template('landpage.html', form = filter_form, messages=messages, products = products,current_page = page, total_pages = pages,total_products = number_products)
-           
+
+# Function to resize the image
+def resize_image(image, max_width, max_height):
+    img = Image.open(image)
+    
+    # Maintain aspect ratio
+    img.thumbnail((max_width, max_height))
+    
+    # Save to a BytesIO object to manipulate before saving to disk
+    img_byte_arr = BytesIO()
+    
+    # Save the image to the byte array in JPEG format with quality (you can change format if needed)
+    img.save(img_byte_arr, format=img.format, optimize=True, quality=85)
+    
+    # Reset the byte array's cursor to the beginning
+    img_byte_arr.seek(0)
+    
+    return img_byte_arr
+
 @public_bp.route('/new_game', methods=['GET','POST'])
 @login_required
 def new_game():
@@ -99,8 +120,17 @@ def new_game():
              # Make file name unique
             ident = uuid4().__str__()
             img_filename = f"{ident}-{img_filename}"
+            # Resize the image (you can change max_width and max_height)
+            resized_image = resize_image(image, max_width=500, max_height=500) 
+            # Define the full path to save the image
+            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], img_filename)
+
+            # Save the resized image to disk
+            with open(image_path, 'wb') as f:
+                f.write(resized_image.read()) 
+            
             #Store the image in the corresponding folder
-            image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], img_filename))
+            #image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], img_filename))
         new_game = Game()
         id_user =  current_user.get_id()
         result = new_game.add_game(name,description,buy_date,price,platform,genre,region,publisher,status,buyer_platform,img_filename,id_user)
