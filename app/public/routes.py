@@ -76,23 +76,6 @@ def landpage(page:int):
         else:
              return render_template('landpage.html', form = filter_form, messages=messages, products = products,current_page = page, total_pages = pages,total_products = number_products)
 
-# Function to resize the image
-def resize_image(image, max_width, max_height):
-    img = Image.open(image)
-    
-    # Maintain aspect ratio
-    img.thumbnail((max_width, max_height))
-    
-    # Save to a BytesIO object to manipulate before saving to disk
-    img_byte_arr = BytesIO()
-    
-    # Save the image to the byte array in JPEG format with quality (you can change format if needed)
-    img.save(img_byte_arr, format=img.format, optimize=True, quality=85)
-    
-    # Reset the byte array's cursor to the beginning
-    img_byte_arr.seek(0)
-    
-    return img_byte_arr
 
 @public_bp.route('/new_game', methods=['GET','POST'])
 @login_required
@@ -260,3 +243,53 @@ def calculate_pages(elements,items_page:int)->int:
     #Get configuration parameter 
     num_pages = math.ceil(elements/items_page)
     return num_pages
+
+
+# Function to resize the image
+def resize_image(image, max_width, max_height):
+    #img = Image.open(image)
+    img = fix_image_orientation(image)
+
+    # Maintain aspect ratio
+    img.thumbnail((max_width, max_height))
+    
+    # Save to a BytesIO object to manipulate before saving to disk
+    img_byte_arr = BytesIO()
+    
+    # Save the image to the byte array in JPEG format with quality (you can change format if needed)
+    img.save(img_byte_arr, format=img.format, optimize=True, quality=85)
+    
+    # Reset the byte array's cursor to the beginning
+    img_byte_arr.seek(0)
+    
+    return img_byte_arr
+
+# Function to fix image orientation based on EXIF data
+def fix_image_orientation(image):
+    try:
+        # Open the image
+        img = Image.open(image)
+
+        # Get the EXIF data from the image
+        exif = img._getexif()
+
+        if exif is not None:
+            # Find the orientation tag (if it exists)
+            for orientation in ExifTags.TAGS.keys():
+                if ExifTags.TAGS[orientation] == 'Orientation':
+                    break
+            
+            # Apply the orientation if available in EXIF data
+            if exif.get(orientation):
+                if exif[orientation] == 3:
+                    img = img.rotate(180, expand=True)
+                elif exif[orientation] == 6:
+                    img = img.rotate(270, expand=True)
+                elif exif[orientation] == 8:
+                    img = img.rotate(90, expand=True)
+        
+        return img
+
+    except Exception as e:
+        print(f"Error processing EXIF orientation: {e}")
+        return image  # If something goes wrong, return the original image
