@@ -10,7 +10,7 @@ import os
 from uuid import uuid4
 import math
 import json
-from PIL import Image
+from PIL import Image,ExifTags
 from io import BytesIO
 
 
