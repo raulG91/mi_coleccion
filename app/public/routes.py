@@ -255,7 +255,11 @@ def resize_image(image, max_width, max_height):
     
     # Save to a BytesIO object to manipulate before saving to disk
     img_byte_arr = BytesIO()
-    
+    print("Received format",img.format)
+    if not img.format:
+        img.format = 'jpg'
+    print("After change "+img.format)    
+    print(type(img.format))
     # Save the image to the byte array in JPEG format with quality (you can change format if needed)
     img.save(img_byte_arr, format=img.format, optimize=True, quality=85)
     
