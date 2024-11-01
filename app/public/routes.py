@@ -1,5 +1,3 @@
-
-
 from flask import abort, render_template,request,redirect,url_for,current_app
 from flask_login import current_user, login_required
 from . import public_bp
@@ -12,6 +10,7 @@ import math
 import json
 from PIL import Image,ExifTags
 from io import BytesIO
+import pillow_heif
 
 
 
@@ -244,56 +243,86 @@ def calculate_pages(elements,items_page:int)->int:
     num_pages = math.ceil(elements/items_page)
     return num_pages
 
+'''''
+Functions to handle images
+'''
 
-# Function to resize the image
-def resize_image(image, max_width, max_height):
-    #img = Image.open(image)
-    img = fix_image_orientation(image)
+# Register HEIC support once at the start of your application
+pillow_heif.register_heif_opener()
 
-    # Maintain aspect ratio
+# Function to determine the format of the image file
+def get_image_format_by_extension(filename):
+    ext = filename.lower().split('.')[-1]
+    
+    if ext == 'heic':
+        return 'HEIC'
+    elif ext in ['jpeg', 'jpg']:
+        return 'JPEG'
+    elif ext == 'png':
+        return 'PNG'
+    # Add other formats as needed
+    else:
+        return 'Unknown'
+
+def detect_image_format(image_file):
+    # Check MIME type if available
+    if hasattr(image_file, 'content_type'):
+        mime_type = image_file.content_type
+        if mime_type == 'image/heic':
+            return 'HEIC'
+        elif mime_type == 'image/jpeg':
+            return 'JPEG'
+        elif mime_type == 'image/png':
+            return 'PNG'
+    
+    # Fall back to checking file extension
+    filename = image_file.filename
+    return get_image_format_by_extension(filename)
+
+# Resize function with format handling
+def resize_image(image_file, max_width, max_height):
+    # Detect format
+    format_detected = detect_image_format(image_file)
+    print(f"Detected format: {format_detected}")
+    
+    # Open and process the image
+    img = Image.open(image_file)
+    
+    # Fix orientation
+    img = fix_image_orientation(img)
+
+    # Resize the image
     img.thumbnail((max_width, max_height))
-    
-    # Save to a BytesIO object to manipulate before saving to disk
+
+    # Prepare to save in an appropriate format
     img_byte_arr = BytesIO()
-    print("Received format",img.format)
-    if not img.format:
-        img.format = 'jpg'
-    print("After change "+img.format)    
-    print(type(img.format))
-    # Save the image to the byte array in JPEG format with quality (you can change format if needed)
-    img.save(img_byte_arr, format=img.format, optimize=True, quality=85)
+    output_format = format_detected if format_detected != 'HEIC' else 'JPEG'
+    print("Saving as format:", output_format)
     
-    # Reset the byte array's cursor to the beginning
+    # Save the image to the byte array
+    img.save(img_byte_arr, format=output_format, optimize=True, quality=85)
     img_byte_arr.seek(0)
     
     return img_byte_arr
 
-# Function to fix image orientation based on EXIF data
-def fix_image_orientation(image):
+# EXIF orientation handling function (same as before)
+def fix_image_orientation(img):
     try:
-        # Open the image
-        img = Image.open(image)
-
-        # Get the EXIF data from the image
         exif = img._getexif()
-
         if exif is not None:
-            # Find the orientation tag (if it exists)
-            for orientation in ExifTags.TAGS.keys():
-                if ExifTags.TAGS[orientation] == 'Orientation':
+            orientation = None
+            for tag, value in ExifTags.TAGS.items():
+                if value == 'Orientation':
+                    orientation = tag
                     break
-            
-            # Apply the orientation if available in EXIF data
-            if exif.get(orientation):
+            if orientation and exif.get(orientation):
                 if exif[orientation] == 3:
                     img = img.rotate(180, expand=True)
                 elif exif[orientation] == 6:
                     img = img.rotate(270, expand=True)
                 elif exif[orientation] == 8:
                     img = img.rotate(90, expand=True)
-        
         return img
-
     except Exception as e:
         print(f"Error processing EXIF orientation: {e}")
-        return image  # If something goes wrong, return the original image
+        return img
